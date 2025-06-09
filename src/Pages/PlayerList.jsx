@@ -74,7 +74,7 @@ export default function PlayerList() {
     })
     return (
         <div className="listContainer">
-            <h3>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h3>
+            <h2>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h2>
             <section className="filter">
                 <button onClick={() => setFilter("P")}><p className="orange circle">P</p></button>
                 <button onClick={() => setFilter("D")}><p className="green circle">D</p></button>
@@ -85,7 +85,7 @@ export default function PlayerList() {
             <table>
                 <thead>
                     <tr>
-                        <th>Ruolo</th>
+                        <th id="role">Ruolo</th>
                         <th>Nome</th>
                     </tr>
                 </thead>

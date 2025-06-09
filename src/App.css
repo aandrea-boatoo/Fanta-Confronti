@@ -4,14 +4,25 @@
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
+
+}
+
+main {
+  background-color: #0088d760;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 100px;
 }
 
 /* Header container */
 header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
   font-family: "Bebas Neue", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -67,14 +78,11 @@ header>p {
 
 /* playerList */
 /* Contenuto principale */
-.listContainer {
-  margin-top: 100px;
-}
 
-h3 {
+h2 {
   text-align: center;
   color: #023e8a;
-  margin-top: 2rem;
+  padding-top: 2rem;
 }
 
 /* Sezione filtro */
@@ -120,10 +128,15 @@ th {
   background-color: #0077b6;
   color: white;
   font-weight: bold;
+  padding: 1rem;
+}
+
+#role {
+  text-align: center;
 }
 
 tr:hover {
-  background-color: #e0f7fa;
+  background-color: #bdd8ff;
 }
 
 /* Link nome giocatore */
@@ -186,5 +199,85 @@ td a:hover {
   .filter {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+/* Details Page */
+
+/* Titolo giocatore */
+
+h1 {
+  text-align: center;
+  color: #0077b6;
+  padding-top: 2rem;
+  font-size: 2rem;
+}
+
+.detailsContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* Contenitore immagine */
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+  width: 250px;
+}
+
+.imgContainer img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Sezione statistiche */
+.stats {
+  background-color: #f1faff;
+  width: 90%;
+  max-width: 500px;
+  max-height: 280px;
+  margin: 30px;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 119, 182, 0.1);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  color: #023e8a;
+  font-size: 1.1rem;
+}
+
+.stats p img {
+  transform: translate(-50%, 20%);
+}
+
+.stats button {
+  padding: 10px;
+  background-color: aliceblue;
+  border: #e63946, solid, 1px;
+  border-radius: 10px;
+  color: #e63946;
+  cursor: pointer;
+}
+
+.stats .favorite {
+  background-color: #e63946;
+  color: aliceblue;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .stats {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .imgContainer img {
+    width: 140px;
+    height: 140px;
   }
 }

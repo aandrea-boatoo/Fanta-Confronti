@@ -20,7 +20,18 @@ export default function usePlayer() {
         return player
     }
 
-    console.log("Debug Player", players)
-    return { players, getPlayer }
+    const updatePlayer = async (updatedPlayer) => {
+        const response = await fetch(`${VITE_API_URL}/calciatores/${updatedPlayer.id}`, {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ favorite: updatedPlayer.favorite }) // solo campo aggiornabile!
+        });
+
+        const data = await response.json();
+        return data;
+    };
+
+
+    return { players, getPlayer, updatePlayer }
 
 }
