@@ -1,61 +1,52 @@
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 
 export default function DetailPlayer() {
     const { id } = useParams();
-    const { getPlayer, updatePlayer } = useContext(GlobalContext);
-
-    const [player, setPlayer] = useState(null);
-
-    const handleFavorite = () => {
-        const newPlayer = { ...player, favorite: !player.favorite };
-        setPlayer(newPlayer)
-        updatePlayer(newPlayer);
-        console.log(message)
-        console.log("Bottone CLickato, new player:", newPlayer)
-    }
+    const { getPlayer, handleFavorite, singlePlayer, } = useContext(GlobalContext);
+    const didFetch = useRef(false);
 
     useEffect(() => {
-        const fetchPlayer = async () => {
-            const data = await getPlayer(id);
-            setPlayer(data.calciatore);
-        };
-        fetchPlayer();
-        console.log(player);
-    }, [id, getPlayer]);
+        if (!didFetch.current) {
+            getPlayer(id);
+            didFetch.current = true;
+        }
+    }, [id]);
 
-    if (!player) {
+
+
+    if (!singlePlayer) {
         return <p>Caricamento giocatore...</p>;
     }
-    const isPortier = player.category === "Portiere" ?
+    const isPortier = singlePlayer.category === "Portiere" ?
         <>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/golSubito.png" alt="golSubitiIcon" /><strong>Gol Subiti:</strong>{player.golSubiti}</p>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/portiereImbattuto.png" alt="cleansheetIcon" /><strong>Cleansheet:</strong> {player.cleanSheet}</p>
+            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/golSubito.png" alt="golSubitiIcon" /><strong>Gol Subiti:</strong>{singlePlayer.golSubiti}</p>
+            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/portiereImbattuto.png" alt="cleansheetIcon" /><strong>Cleansheet:</strong> {singlePlayer.cleanSheet}</p>
         </> : <>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/golFatto.png" alt="gol icon" /><strong>Gol:</strong> {player.gol}</p>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/assist.png" alt="assist icon" /><strong>Assist:</strong> {player.assist}</p>
+            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/golFatto.png" alt="gol icon" /><strong>Gol:</strong> {singlePlayer.gol}</p>
+            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/assist.png" alt="assist icon" /><strong>Assist:</strong> {singlePlayer.assist}</p>
         </>;
 
-    const isFavorite = player.favorite ? "favorite" : ""
-    const handleAdd = player.favorite ? "Rimuovi" : "Aggiungi"
     return (<>
-        <h1>{player.title}</h1>
+        <h1>{singlePlayer.title}</h1>
         <div className="detailsContainer">
             <div className="imgContainer">
-                <img src={player.img} alt={player.title} />
+                <img src={singlePlayer.img} alt={singlePlayer.title} />
             </div>
             <section className="stats">
 
-                <p><strong>Età:</strong> {player.age}</p>
-                <p><strong>Ruolo:</strong>{player.category}</p>
-                <p><strong>Partite Giocate:</strong>{player.partiteGiocate}</p>
-                <p><strong>Media FantaVoto:</strong>{player.mediaFantaVoto}</p>
-                <p><strong>Sufficienze:</strong>{player.sufficienze}</p>
+                <p><strong>Età:</strong> {singlePlayer.age}</p>
+                <p><strong>Ruolo:</strong>{singlePlayer.category}</p>
+                <p><strong>Partite Giocate:</strong>{singlePlayer.partiteGiocate}</p>
+                <p><strong>Media FantaVoto:</strong>{singlePlayer.mediaFantaVoto}</p>
+                <p><strong>Sufficienze:</strong>{singlePlayer.sufficienze}</p>
                 {isPortier}
-                <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/ammonito.png" alt="ammonizioneIcon" /><strong>Ammonizioni:</strong>{player.ammonizioni}</p>
-                <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/espulso.png" alt="EspulsioniIcon" /><strong>Espulsioni:</strong>{player.espulsioni}</p>
-                <p><button className={isFavorite} onClick={handleFavorite}><strong>{handleAdd} ai preferiti</strong></button></p>
+                <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/ammonito.png" alt="ammonizioneIcon" /><strong>Ammonizioni:</strong>{singlePlayer.ammonizioni}</p>
+                <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/espulso.png" alt="EspulsioniIcon" /><strong>Espulsioni:</strong>{singlePlayer.espulsioni}</p>
+                <p><button className={singlePlayer.favorite ? "favorite" : ""} onClick={() => handleFavorite(id)}>
+                    <strong>{singlePlayer.favorite ? "Rimuovi" : "Aggiungi"} ai preferiti</strong>
+                </button></p>
             </section>
         </div>
     </>

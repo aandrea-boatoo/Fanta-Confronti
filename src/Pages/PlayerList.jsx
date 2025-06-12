@@ -1,31 +1,60 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useMemo, useCallback } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 import { Link } from "react-router-dom";
 
 export default function PlayerList() {
-    const { players } = useContext(GlobalContext);
+    const { players, handleFavorite } = useContext(GlobalContext);
     const [filter, setFilter] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const debounce = (callback, delay) => {
+        let timer;
+        return (value) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                callback(value);
+            }, delay);
+        };
+    };
+
+    const debounceSearch = useCallback(debounce(setSearchQuery, 500), []);
+
+    const filteredPlayers = useMemo(() => {
+        const byRole = filter
+            ? players.filter((player) => {
+                switch (filter) {
+                    case "P":
+                        return player.category === "Portiere";
+                    case "D":
+                        return player.category === "Difensore";
+                    case "C":
+                        return player.category === "Centrocampista";
+                    case "A":
+                        return player.category === "Attaccante";
+                    default:
+                        return true;
+                }
+            })
+            : players;
+
+        const bySearch = searchQuery
+            ? byRole.filter(player =>
+                player.title.toLowerCase().includes(searchQuery.toLowerCase()))
+            : byRole;
+
+        return bySearch;
+    }, [players, filter, searchQuery]);
+
+    const sortedPlayers = useMemo(() => {
+        const orderRoule = ["Portiere", "Difensore", "Centrocampista", "Attaccante"];
+        return [...filteredPlayers].sort((a, b) => {
+            return orderRoule.indexOf(a.category) - orderRoule.indexOf(b.category);
+        });
+    }, [filteredPlayers]);
 
     if (!players || players.length === 0) {
         return <p>Caricamento dati...</p>;
     }
-
-    const filteredPlayers = filter
-        ? players.filter((player) => {
-            switch (filter) {
-                case "P":
-                    return player.category === "Portiere";
-                case "D":
-                    return player.category === "Difensore";
-                case "C":
-                    return player.category === "Centrocampista";
-                case "A":
-                    return player.category === "Attaccante";
-                default:
-                    return true;
-            }
-        })
-        : players;
 
     const playerRoule = (player) => {
         let roleClass = "";
@@ -53,29 +82,30 @@ export default function PlayerList() {
                 roleLetter = "?";
         }
 
+
+
         return (
             <>
+                <td><p className={roleClass}>{roleLetter}</p></td>
+                <td><Link to={`/details/${player.id}`}>{player.title}</Link></td>
                 <td>
-                    <p className={roleClass}>{roleLetter}</p>
+                    <button
+                        className={`${player.favorite ? "favorite" : ""} favoriteButton`}
+                        onClick={() => handleFavorite(player.id)}
+                    >
+                        &#x2665;
+                    </button>
                 </td>
-                <td>
-                    <Link to={`/details/${player.id}`}>
-                        {player.title}
-                    </Link>
-                </td>
+
             </>
         );
     };
-    const sortedPlayer = filteredPlayers.sort((a, b) => {
-        const orderRoule = ["Portiere", "Difensore", "Centrocampista", "Attaccante"]
-        const orderA = orderRoule.indexOf(a.category)
-        const orderB = orderRoule.indexOf(b.category)
-        return orderA - orderB;
-    })
+
     return (
         <div className="listContainer">
             <h2>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h2>
             <section className="filter">
+                <input type="text" onChange={(e) => debounceSearch(e.target.value)} placeholder="Cerca il tuo giocatore..." />
                 <button onClick={() => setFilter("P")}><p className="orange circle">P</p></button>
                 <button onClick={() => setFilter("D")}><p className="green circle">D</p></button>
                 <button onClick={() => setFilter("C")}><p className="blue circle">C</p></button>
@@ -87,10 +117,11 @@ export default function PlayerList() {
                     <tr>
                         <th id="role">Ruolo</th>
                         <th>Nome</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedPlayer.map((player, index) => (
+                    {sortedPlayers.map((player, index) => (
                         <tr key={index}>
                             {playerRoule(player)}
                         </tr>

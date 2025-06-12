@@ -1,37 +1,97 @@
-import { useState, useEffect } from "react";
-const { VITE_API_URL } = import.meta.env
+import { useState, useEffect, useCallback } from "react";
+const { VITE_API_URL } = import.meta.env;
 
 export default function usePlayer() {
     const [players, setPlayers] = useState([]);
+    const [singlePlayer, setSinglePlayer] = useState(null);
 
+    // Carica tutti i giocatori
     useEffect(() => {
         fetch(`${VITE_API_URL}/calciatores`)
             .then(res => res.json())
             .then(data => setPlayers(data))
-            .catch(error => console.log(error))
-    }, [])
+            .catch(error => console.log("Errore nel caricamento giocatori:", error));
+    }, []);
 
-    const getPlayer = async (id) => {
-        const response = fetch(`${VITE_API_URL}/calciatores/${id}`, { method: 'GET' });
-        const player = (await response).json();
-        if (!player) {
-            console.error("giocatore non trovato");
+    // Prendi un giocatore singolo
+    const getPlayer = useCallback(async (id) => {
+        try {
+            const response = await fetch(`${VITE_API_URL}/calciatores/${id}`);
+            const data = await response.json();
+            if (!data || !data.calciatore) {
+                console.error("Giocatore non trovato");
+                return null;
+            }
+            setSinglePlayer(data.calciatore);
+            return data.calciatore;
+        } catch (error) {
+            console.error("Errore nel fetch del giocatore:", error);
+            return null;
         }
-        return player
-    }
-
+    }, [])
+        ;
+    // Aggiorna solo il campo `favorite`
     const updatePlayer = async (updatedPlayer) => {
-        const response = await fetch(`${VITE_API_URL}/calciatores/${updatedPlayer.id}`, {
-            method: 'PUT',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ favorite: updatedPlayer.favorite }) // solo campo aggiornabile!
-        });
+        try {
+            const response = await fetch(`${VITE_API_URL}/calciatores/${updatedPlayer.id}`, {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ favorite: updatedPlayer.favorite }),
+            });
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Errore nell'aggiornamento:", error);
+        }
+    };
 
-        const data = await response.json();
-        return data;
+    // Toggle del preferito
+    const handleFavorite = async (id) => {
+        const playerToUpdate = players.find(p => p.id === parseInt(id));
+        if (!playerToUpdate) return;
+
+        const updatedFavorite = !playerToUpdate.favorite;
+
+        // Aggiorna solo la proprietà favorite nel backend
+        const updateResponse = await updatePlayer({ id: playerToUpdate.id, favorite: updatedFavorite });
+
+        if (!updateResponse) {
+            console.error("Aggiornamento fallito");
+            return;
+        }
+
+        // Ricarica i dati completi del giocatore aggiornato
+        const refreshedPlayer = await getPlayer(playerToUpdate.id);
+
+        if (!refreshedPlayer) {
+            console.error("Recupero giocatore aggiornato fallito");
+            return;
+        }
+
+        // Aggiorna la lista dei giocatori in stato
+        setPlayers(prevPlayers =>
+            prevPlayers.map(p => p.id === refreshedPlayer.id ? refreshedPlayer : p)
+        );
+
+        // Se stiamo visualizzando quel giocatore nei dettagli, aggiorna anche quello
+        if (singlePlayer?.id === refreshedPlayer.id) {
+            setSinglePlayer(refreshedPlayer);
+        }
     };
 
 
-    return { players, getPlayer, updatePlayer }
+    // Utility per classi CSS e testi
+    const isFavoriteClass = singlePlayer?.favorite ? "favorite" : "";
+    const handleAddText = singlePlayer?.favorite ? "Rimuovi" : "Aggiungi";
 
+    return {
+        players,
+        singlePlayer,
+        setSinglePlayer,
+        getPlayer,
+        updatePlayer,
+        handleFavorite,
+        isFavoriteClass,
+        handleAddText,
+    };
 }
