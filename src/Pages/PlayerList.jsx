@@ -55,7 +55,6 @@ export default function PlayerList() {
     if (!players || players.length === 0) {
         return <p>Caricamento dati...</p>;
     }
-
     const playerRoule = (player) => {
         let roleClass = "";
         let roleLetter = "";

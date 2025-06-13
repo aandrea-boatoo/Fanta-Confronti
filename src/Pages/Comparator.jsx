@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useContext, useCallback } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 import { Link } from "react-router-dom";
 
@@ -62,16 +62,16 @@ export default function Comparator() {
         setInput1(player.title);
         setFiltered1([]);
         const data = await getPlayer(player.id);
-        console.log(selected1)
         setSelected1(data);
+        await console.log(selected1)
     };
 
     const handleSelect2 = async (player) => {
         setInput2(player.title);
         setFiltered2([]);
         const data = await getPlayer(player.id);
-        console.log(selected2)
         setSelected2(data);
+        console.log(selected2)
     };
 
     const handleButton1 = () => {
@@ -189,7 +189,6 @@ export default function Comparator() {
                                     <p>Gol</p>
                                     <p>Assist</p>
                                 </>
-
                             }
                             <p>Ammonizioni</p>
                             <p>Espulsioni</p>
@@ -208,7 +207,6 @@ export default function Comparator() {
                                         <p className="rightStats">{selected2.gol}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/golFatto.png" alt="gol icon" /></p>
                                         <p className="rightStats">{selected2.assist}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/assist.png" alt="assist icon" /></p>
                                     </>
-
                                 }
                                 <p className="rightStats">{selected2.ammonizioni}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/ammonito.png" alt="ammonizioneIcon" /></p>
                                 <p className="rightStats">{selected2.espulsioni}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/espulso.png" alt="EspulsioniIcon" /></p>
@@ -217,7 +215,7 @@ export default function Comparator() {
                                 <img src={selected2.img} alt={selected2.title} />
                                 <h3><Link to={`/details/${selected2.id}`}>{selected2.title}</Link></h3>
                                 <button
-                                    className={`favoriteButton ${selected2.favorite ? "favorite" : ""}`}
+                                    className={selected2.favorite ? "favorite favoriteButton" : "favoriteButton"}
                                     onClick={() => handleButton2()}
                                 >
                                     &#x2665;

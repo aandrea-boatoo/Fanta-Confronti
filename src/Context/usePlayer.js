@@ -59,7 +59,6 @@ export default function usePlayer() {
             console.error("Aggiornamento fallito");
             return;
         }
-
         // Ricarica i dati completi del giocatore aggiornato
         const refreshedPlayer = await getPlayer(playerToUpdate.id);
 
@@ -78,7 +77,6 @@ export default function usePlayer() {
             setSinglePlayer(refreshedPlayer);
         }
     };
-
 
     // Utility per classi CSS e testi
     const isFavoriteClass = singlePlayer?.favorite ? "favorite" : "";
