@@ -5,6 +5,7 @@ import PlayerList from "./Pages/PlayerList"
 import Comparator from "./Pages/Comparator"
 import GlobalProvider from './Context/GlobalContext'
 import DetailPlayer from './Pages/DetailPlayer'
+import HeroPage from './Pages/HeroPage'
 function App() {
 
   return (
@@ -12,7 +13,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" Component={DefaultLayout}>
-            <Route path="/" Component={PlayerList}></Route>
+            <Route index Component={HeroPage}></Route>
+            <Route path="/playerList" Component={PlayerList}></Route>
             <Route path="/compare" Component={Comparator}></Route>
             <Route path="/details/:id" Component={DetailPlayer}> </Route>
           </Route>

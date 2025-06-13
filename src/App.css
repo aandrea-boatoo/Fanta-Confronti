@@ -5,9 +5,14 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
 body {
   position: sticky;
-  height: 100vh;
   top: 0;
   bottom: 0;
   left: 0;
@@ -15,6 +20,7 @@ body {
 }
 
 main {
+  min-height: calc(100vh - 70px);
   background-color: #0088d760;
   position: sticky;
   bottom: 0;
@@ -55,7 +61,7 @@ header>p {
   gap: 1.5rem;
 }
 
-#navbar a {
+header a {
   color: #e0f7fa;
   text-decoration: none;
   font-weight: 500;
@@ -74,7 +80,7 @@ header>p {
   transition: width 0.3s ease;
 }
 
-#navbar a:hover {
+header a:hover {
   color: #ffffff;
 }
 
@@ -428,4 +434,91 @@ h1 {
   max-width: 600px;
   margin: 0 auto;
   font-weight: bolder;
+}
+
+
+/* HEROPAGE */
+
+.hero-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-image: url("/img/hero-background.jpg");
+  /* personalizzabile */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  overflow: hidden;
+}
+
+.hero-background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+  animation: fadeInUp 1s ease forwards;
+  max-width: 90%;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.hero-button {
+  display: inline-block;
+  background-color: #00BFFF;
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.hero-button:hover {
+  background-color: #009acd;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
 }
