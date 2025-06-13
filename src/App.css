@@ -210,21 +210,6 @@ a:hover {
   background-color: #f4a261;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-
-  table,
-  th,
-  td {
-    font-size: 0.9rem;
-  }
-
-  .filter {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
 /* Details Page */
 
 /* Titolo giocatore */
@@ -291,20 +276,6 @@ h1 {
 .favorite {
   background-color: #e63946;
   color: aliceblue;
-}
-
-
-/* Responsive */
-@media (max-width: 600px) {
-  .stats {
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .imgContainer img {
-    width: 140px;
-    height: 140px;
-  }
 }
 
 
@@ -507,16 +478,5 @@ h1 {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
   }
 }
