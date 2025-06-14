@@ -63,7 +63,7 @@ export default function Comparator() {
         setFiltered1([]);
         const data = await getPlayer(player.id);
         setSelected1(data);
-        await console.log(selected1)
+        console.log(selected1)
     };
 
     const handleSelect2 = async (player) => {
