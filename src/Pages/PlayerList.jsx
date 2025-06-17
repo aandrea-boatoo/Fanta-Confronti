@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo, useCallback } from "react";
+import { useContext, useState, useMemo } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ export default function PlayerList() {
         };
     };
 
-    const debounceSearch = useCallback(debounce(setSearchQuery, 500), []);
+    const debounceSearch = useMemo(debounce(setSearchQuery, 500), []);
 
     const filteredPlayers = useMemo(() => {
         const byRole = filter

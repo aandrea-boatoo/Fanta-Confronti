@@ -1,18 +1,14 @@
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 
 export default function DetailPlayer() {
     const { id } = useParams();
     const { getPlayer, handleFavorite, singlePlayer, } = useContext(GlobalContext);
-    const didFetch = useRef(false);
-
     useEffect(() => {
-        if (!didFetch.current) {
-            getPlayer(id);
-            didFetch.current = true;
-        }
+        getPlayer(id);
     }, [id]);
+
 
 
 
