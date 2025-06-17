@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo } from "react";
+import { useContext, useState, useMemo, memo } from "react";
 import { GlobalContext } from "../Context/GlobalContext";
 import { Link } from "react-router-dom";
 
@@ -55,7 +55,8 @@ export default function PlayerList() {
     if (!players || players.length === 0) {
         return <p>Caricamento dati...</p>;
     }
-    const playerRoule = (player) => {
+
+    const PlayerRow = memo(({ player, onToggleFavorite }) => {
         let roleClass = "";
         let roleLetter = "";
 
@@ -84,21 +85,22 @@ export default function PlayerList() {
 
 
         return (
-            <>
+            <tr>
                 <td><p className={roleClass}>{roleLetter}</p></td>
                 <td><Link to={`/details/${player.id}`}>{player.title}</Link></td>
                 <td>
                     <button
                         className={`${player.favorite ? "favorite" : ""} favoriteButton`}
-                        onClick={() => handleFavorite(player.id)}
+                        onClick={() => onToggleFavorite(player.id)}
                     >
                         &#x2665;
                     </button>
                 </td>
 
-            </>
+            </tr>
         );
-    };
+    });
+
 
     return (
         <div className="listContainer">
@@ -121,9 +123,11 @@ export default function PlayerList() {
                 </thead>
                 <tbody>
                     {sortedPlayers.map((player, index) => (
-                        <tr key={index}>
-                            {playerRoule(player)}
-                        </tr>
+                        <PlayerRow
+                            key={player.id}
+                            player={player}
+                            onToggleFavorite={handleFavorite}
+                        />
                     ))}
                 </tbody>
             </table>
