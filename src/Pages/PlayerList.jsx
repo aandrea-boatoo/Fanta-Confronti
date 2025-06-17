@@ -1,7 +1,6 @@
-import { useContext, useState, useMemo, memo } from "react";
+import { useContext, useState, useMemo } from "react";
+import PlayerRow from "../Components/PlayerRow";
 import { GlobalContext } from "../Context/GlobalContext";
-import { Link } from "react-router-dom";
-
 export default function PlayerList() {
     const { players, handleFavorite } = useContext(GlobalContext);
     const [filter, setFilter] = useState("");
@@ -55,52 +54,6 @@ export default function PlayerList() {
     if (!players || players.length === 0) {
         return <p>Caricamento dati...</p>;
     }
-
-    const PlayerRow = memo(({ player, onToggleFavorite }) => {
-        let roleClass = "";
-        let roleLetter = "";
-
-        switch (player.category) {
-            case "Attaccante":
-                roleClass = "red circle";
-                roleLetter = "A";
-                break;
-            case "Centrocampista":
-                roleClass = "blue circle";
-                roleLetter = "C";
-                break;
-            case "Difensore":
-                roleClass = "green circle";
-                roleLetter = "D";
-                break;
-            case "Portiere":
-                roleClass = "orange circle";
-                roleLetter = "P";
-                break;
-            default:
-                roleClass = "";
-                roleLetter = "?";
-        }
-
-
-
-        return (
-            <tr>
-                <td><p className={roleClass}>{roleLetter}</p></td>
-                <td><Link to={`/details/${player.id}`}>{player.title}</Link></td>
-                <td>
-                    <button
-                        className={`${player.favorite ? "favorite" : ""} favoriteButton`}
-                        onClick={() => onToggleFavorite(player.id)}
-                    >
-                        &#x2665;
-                    </button>
-                </td>
-
-            </tr>
-        );
-    });
-
 
     return (
         <div className="listContainer">
