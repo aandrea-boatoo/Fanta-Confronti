@@ -11,88 +11,61 @@ export default function Comparator() {
     const [selected2, setSelected2] = useState(null);
     const { players, getPlayer, handleFavorite } = useContext(GlobalContext);
 
-    // Funzione debounce
+    //  debounce generale
     const debounce = (callback, delay) => {
         let timer;
-        return (value) => {
+        return (value, setFiltered) => {
             clearTimeout(timer);
             timer = setTimeout(() => {
-                callback(value);
+                callback(value, setFiltered);
             }, delay);
         };
     };
 
-    const debounceSearch1 = useCallback(
-        debounce((value) => {
+    const debounceSearch = useCallback(
+        debounce((value, setFiltered) => {
             const res = players.filter(player =>
                 player.title.toLowerCase().includes(value.toLowerCase())
             );
-            setFiltered1(res);
+            setFiltered(res);
         }, 300),
         [players]
     );
-
-    const debounceSearch2 = useCallback(
-        debounce((value) => {
-            const res = players.filter(player =>
-                player.title.toLowerCase().includes(value.toLowerCase())
-            );
-            setFiltered2(res);
-        }, 300),
-        [players]
-    );
-
 
 
     // Input handlers
     const handleInput1 = (e) => {
         const value = e.target.value;
         setInput1(value);
-        debounceSearch1(value);
+        debounceSearch(value, setFiltered1);
     };
 
     const handleInput2 = (e) => {
         const value = e.target.value;
         setInput2(value);
-        debounceSearch2(value);
+        debounceSearch(value, setFiltered2);
     };
 
     // Click handlers
-    const handleSelect1 = async (player) => {
-        setInput1(player.title);
-        setFiltered1([]);
+    const handleSelect = async (player, setInput, setFiltered, setSelected) => {
+        setInput(player.title);
+        setFiltered([]);
         const data = await getPlayer(player.id);
-        setSelected1(data);
-        console.log(selected1)
+        setSelected(data);
     };
 
-    const handleSelect2 = async (player) => {
-        setInput2(player.title);
-        setFiltered2([]);
-        const data = await getPlayer(player.id);
-        setSelected2(data);
-        console.log(selected2)
-    };
-
-    const handleButton1 = () => {
-        handleFavorite(selected1.id);
-        setSelected1(prev => ({
-            ...prev, favorite: !prev.favorite
-        }))
-    }
-    const handleButton2 = () => {
-        handleFavorite(selected2.id);
-        setSelected2(prev => ({
+    const handleButton = (selected, setSelected) => {
+        handleFavorite(selected.id);
+        setSelected(prev => ({
             ...prev, favorite: !prev.favorite
         }))
     }
 
     const isSame = () => {
-        const idPl1 = selected1.id;
-        const idPl2 = selected2.id;
-        return (idPl1 === idPl2)
+        if (!selected1 || !selected2) return false;
+        return selected1.id === selected2.id;
+    };
 
-    }
     const isPortier = () => {
         const isP1 = selected1?.category === "Portiere";
         const isP2 = selected2?.category === "Portiere";
@@ -114,7 +87,7 @@ export default function Comparator() {
                     {filtered1.length > 0 && (
                         <ul className="suggestion-list">
                             {filtered1.map(player => (
-                                <li key={player.id} onClick={() => handleSelect1(player)}>
+                                <li key={player.id} onClick={() => handleSelect(player, setInput1, setFiltered1, setSelected1)}>
                                     {player.title}
                                 </li>
                             ))}
@@ -132,7 +105,7 @@ export default function Comparator() {
                     {filtered2.length > 0 && (
                         <ul className="suggestion-list">
                             {filtered2.map(player => (
-                                <li key={player.id} onClick={() => handleSelect2(player)}>
+                                <li key={player.id} onClick={() => handleSelect(player, setInput2, setFiltered2, setSelected2)}>
                                     {player.title}
                                 </li>
                             ))}
@@ -152,7 +125,7 @@ export default function Comparator() {
                                 <h3><Link to={`/details/${selected1.id}`}>{selected1.title}</Link></h3>
                                 <button
                                     className={selected1.favorite ? "favorite favoriteButton" : "favoriteButton"}
-                                    onClick={() => handleButton1()}
+                                    onClick={() => handleButton(selected1, setSelected1)}
                                 >
                                     &#x2665;
                                 </button>
@@ -216,7 +189,7 @@ export default function Comparator() {
                                 <h3><Link to={`/details/${selected2.id}`}>{selected2.title}</Link></h3>
                                 <button
                                     className={selected2.favorite ? "favorite favoriteButton" : "favoriteButton"}
-                                    onClick={() => handleButton2()}
+                                    onClick={() => handleButton(selected2, setSelected2)}
                                 >
                                     &#x2665;
                                 </button>
