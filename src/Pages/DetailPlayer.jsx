@@ -17,11 +17,11 @@ export default function DetailPlayer() {
     }
     const isPortier = singlePlayer.category === "Portiere" ?
         <>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/golSubito.png" alt="golSubitiIcon" /><strong>Gol Subiti:</strong>{singlePlayer.golSubiti}</p>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/portiereImbattuto.png" alt="cleansheetIcon" /><strong>Cleansheet:</strong> {singlePlayer.cleanSheet}</p>
+            <p><img src="/imgIcon/golSubitoIcon.png" alt="golSubitiIcon" /><strong>Gol Subiti:</strong>{singlePlayer.golSubiti}</p>
+            <p><img src="/imgIcon/cleanSheetIcon.png" alt="cleansheetIcon" /><strong>Cleansheet:</strong> {singlePlayer.cleanSheet}</p>
         </> : <>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/golFatto.png" alt="gol icon" /><strong>Gol:</strong> {singlePlayer.gol}</p>
-            <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/assist.png" alt="assist icon" /><strong>Assist:</strong> {singlePlayer.assist}</p>
+            <p><img src="/imgIcon/golIcon.png" alt="gol icon" /><strong>Gol:</strong> {singlePlayer.gol}</p>
+            <p><img src="/imgIcon/assistIcon.png" alt="assist icon" /><strong>Assist:</strong> {singlePlayer.assist}</p>
         </>;
 
     return (<>
@@ -38,8 +38,8 @@ export default function DetailPlayer() {
                 <p><strong>Media FantaVoto:</strong>{singlePlayer.mediaFantaVoto}</p>
                 <p><strong>Sufficienze:</strong>{singlePlayer.sufficienze}</p>
                 {isPortier}
-                <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/ammonito.png" alt="ammonizioneIcon" /><strong>Ammonizioni:</strong>{singlePlayer.ammonizioni}</p>
-                <p><img src="https://content.fantacalcio.it/web/img/live_ico/2021/espulso.png" alt="EspulsioniIcon" /><strong>Espulsioni:</strong>{singlePlayer.espulsioni}</p>
+                <p><img src="/imgIcon/ammonizioneIcon.png" alt="ammonizioneIcon" /><strong>Ammonizioni:</strong>{singlePlayer.ammonizioni}</p>
+                <p><img src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" /><strong>Espulsioni:</strong>{singlePlayer.espulsioni}</p>
                 <p><button className={singlePlayer.favorite ? "favorite" : ""} onClick={() => handleFavorite(id)}>
                     <strong>{singlePlayer.favorite ? "Rimuovi" : "Aggiungi"} ai preferiti</strong>
                 </button></p>

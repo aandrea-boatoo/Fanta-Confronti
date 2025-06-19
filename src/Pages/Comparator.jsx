@@ -138,16 +138,16 @@ export default function Comparator() {
                                 <p className="leftStats"><img className="left" src="/imgIcon/mediaVotoIcon.png" alt="mediaVotoIcon" /> {selected1.mediaFantaVoto}</p>
                                 {selected1.category === "Portiere" ?
                                     <>
-                                        <p className="leftStats"><img className="left" src="https://content.fantacalcio.it/web/img/live_ico/2021/golSubito.png" alt="golSubitiIcon" />{selected1.golSubiti}</p>
-                                        <p className="leftStats"><img className="left" src="https://content.fantacalcio.it/web/img/live_ico/2021/portiereImbattuto.png" alt="cleansheetIcon" />{selected1.cleanSheet}</p>
+                                        <p className="leftStats"><img className="left" src="/imgIcon/golSubitoIcon.png" alt="golSubitiIcon" />{selected1.golSubiti}</p>
+                                        <p className="leftStats"><img className="left" src="/imgIcon/cleanSheetIcon.png" alt="cleansheetIcon" />{selected1.cleanSheet}</p>
                                     </> : <>
-                                        <p className="leftStats"><img className="left" src="https://content.fantacalcio.it/web/img/live_ico/2021/golFatto.png" alt="gol icon" />{selected1.gol}</p>
-                                        <p className="leftStats"><img className="left" src="https://content.fantacalcio.it/web/img/live_ico/2021/assist.png" alt="assist icon" />{selected1.assist}</p>
+                                        <p className="leftStats"><img className="left" src="/imgIcon/golIcon.png" alt="gol icon" />{selected1.gol}</p>
+                                        <p className="leftStats"><img className="left" src="/imgIcon/assistIcon.png" alt="assist icon" />{selected1.assist}</p>
                                     </>
 
                                 }
-                                <p className="leftStats"><img className="left" src="https://content.fantacalcio.it/web/img/live_ico/2021/ammonito.png" alt="ammonizioneIcon" />{selected1.ammonizioni}</p>
-                                <p className="leftStats"><img className="left" src="https://content.fantacalcio.it/web/img/live_ico/2021/espulso.png" alt="EspulsioniIcon" />{selected1.espulsioni}</p>
+                                <p className="leftStats"><img className="left" src="/imgIcon/ammonizioneIcon.png" alt="ammonizioneIcon" />{selected1.ammonizioni}</p>
+                                <p className="leftStats"><img className="left" src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" />{selected1.espulsioni}</p>
                             </div>
                         </div>
                         <div className="statsName">
@@ -174,15 +174,15 @@ export default function Comparator() {
                                 <p className="rightStats">{selected2.mediaFantaVoto}<img className="right" src="/imgIcon/mediaVotoIcon.png" alt="mediaVotoIcon" /></p>
                                 {selected2.category === "Portiere" ?
                                     <>
-                                        <p className="rightStats">{selected2.golSubiti}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/golSubito.png" alt="golSubitiIcon" /></p>
-                                        <p className="rightStats">{selected2.cleanSheet}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/portiereImbattuto.png" alt="cleansheetIcon" /></p>
+                                        <p className="rightStats">{selected2.golSubiti}<img className="right" src="/imgIcon/golSubitoIcon.png" alt="golSubitiIcon" /></p>
+                                        <p className="rightStats">{selected2.cleanSheet}<img className="right" src="/imgIcon/cleanSheetIcon.png" alt="cleansheetIcon" /></p>
                                     </> : <>
-                                        <p className="rightStats">{selected2.gol}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/golFatto.png" alt="gol icon" /></p>
-                                        <p className="rightStats">{selected2.assist}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/assist.png" alt="assist icon" /></p>
+                                        <p className="rightStats">{selected2.gol}<img className="right" src="/imgIcon/golIcon.png" alt="gol icon" /></p>
+                                        <p className="rightStats">{selected2.assist}<img className="right" src="/imgIcon/assistIcon.png" alt="assist icon" /></p>
                                     </>
                                 }
-                                <p className="rightStats">{selected2.ammonizioni}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/ammonito.png" alt="ammonizioneIcon" /></p>
-                                <p className="rightStats">{selected2.espulsioni}<img className="right" src="https://content.fantacalcio.it/web/img/live_ico/2021/espulso.png" alt="EspulsioniIcon" /></p>
+                                <p className="rightStats">{selected2.ammonizioni}<img className="right" src="/imgIcon/ammonizioneIcon.png" alt="ammonizioneIcon" /></p>
+                                <p className="rightStats">{selected2.espulsioni}<img className="right" src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" /></p>
                             </div>
                             <div className="playerPresentation">
                                 <img src={selected2.img} alt={selected2.title} />

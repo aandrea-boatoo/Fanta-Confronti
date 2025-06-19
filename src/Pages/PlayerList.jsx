@@ -44,7 +44,7 @@ export default function PlayerList() {
                     case "A":
                         return player.category === "Attaccante";
                     default:
-                        return true;
+                        return "";
                 }
             })
             : players;

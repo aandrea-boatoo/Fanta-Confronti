@@ -31,7 +31,7 @@ export default function usePlayer() {
     }, [])
         ;
     // Aggiorna solo il campo `favorite`
-    const updatePlayer = async (updatedPlayer) => {
+    const updatePlayer = useCallback(async (updatedPlayer) => {
         try {
             const response = await fetch(`${VITE_API_URL}/calciatores/${updatedPlayer.id}`, {
                 method: 'PUT',
@@ -43,7 +43,7 @@ export default function usePlayer() {
         } catch (error) {
             console.error("Errore nell'aggiornamento:", error);
         }
-    };
+    });
 
     // Toggle del preferito
     const handleFavorite = async (id) => {
@@ -52,14 +52,14 @@ export default function usePlayer() {
 
         const updatedFavorite = !playerToUpdate.favorite;
 
-        // Aggiorna solo la proprietà favorite nel backend
+        // Aggiorna solo la proprietà favorite
         const updateResponse = await updatePlayer({ id: playerToUpdate.id, favorite: updatedFavorite });
 
         if (!updateResponse) {
             console.error("Aggiornamento fallito");
             return;
         }
-        // Ricarica i dati completi del giocatore aggiornato
+        // carica i dati del giocatore aggiornato
         const refreshedPlayer = await getPlayer(playerToUpdate.id);
 
         if (!refreshedPlayer) {
@@ -67,12 +67,10 @@ export default function usePlayer() {
             return;
         }
 
-        // Aggiorna la lista dei giocatori in stato
         setPlayers(prevPlayers =>
             prevPlayers.map(p => p.id === refreshedPlayer.id ? refreshedPlayer : p)
         );
 
-        // Se stiamo visualizzando quel giocatore nei dettagli, aggiorna anche quello
         if (singlePlayer?.id === refreshedPlayer.id) {
             setSinglePlayer(refreshedPlayer);
         }
@@ -81,9 +79,7 @@ export default function usePlayer() {
     return {
         players,
         singlePlayer,
-        setSinglePlayer,
         getPlayer,
-        updatePlayer,
         handleFavorite,
     };
 }
