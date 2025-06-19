@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState, useMemo, useCallback, useRef } from "react";
+import { useEffect, useContext, useState, useMemo, useRef } from "react";
 import PlayerRow from "../Components/PlayerRow";
 import { GlobalContext } from "../Context/GlobalContext";
 export default function PlayerList() {
@@ -86,7 +86,6 @@ export default function PlayerList() {
                         <PlayerRow
                             key={player.id}
                             player={player}
-                            onToggleFavorite={handleFavorite}
                         />
                     ))}
                 </tbody>

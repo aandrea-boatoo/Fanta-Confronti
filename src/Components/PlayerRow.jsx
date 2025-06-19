@@ -1,8 +1,12 @@
 // PlayerRow.jsx
 import { memo } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { GlobalContext } from "../Context/GlobalContext";
 
-const PlayerRow = ({ player, handleFavorite }) => {
+
+const PlayerRow = ({ player }) => {
+    const { handleFavorite } = useContext(GlobalContext);
     let roleClass = "";
     let roleLetter = "";
 
