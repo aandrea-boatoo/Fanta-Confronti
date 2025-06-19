@@ -389,6 +389,7 @@ h1 {
 }
 
 .statsName>p {
+  padding-top: 2px;
   font-weight: bolder;
   color: #023e8a;
   text-align: center;
