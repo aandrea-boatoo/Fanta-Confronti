@@ -2,9 +2,11 @@ import { useEffect, useContext, useState, useMemo, useRef } from "react";
 import PlayerRow from "../Components/PlayerRow";
 import { GlobalContext } from "../Context/GlobalContext";
 export default function PlayerList() {
-    const { players, handleFavorite } = useContext(GlobalContext);
+    const { players } = useContext(GlobalContext);
     const [filter, setFilter] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+    const [az, setAz] = useState(true);
+    const [rouleOrder, setRouleOrder] = useState(true);
     const debounceTimer = useRef(null)
 
 
@@ -24,7 +26,11 @@ export default function PlayerList() {
             }
         }
     }, []);
-
+    const handleReset = () => {
+        setFilter("");
+        setAz(true);
+        setRouleOrder(true);
+    }
     const filteredPlayers = useMemo(() => {
         const byRole = filter
             ? players.filter((player) => {
@@ -50,13 +56,24 @@ export default function PlayerList() {
 
         return bySearch;
     }, [players, filter, searchQuery]);
-    const alphaSortedPlayer = useMemo(() => ([...filteredPlayers].sort((a, b) => (a.title.localeCompare(b.title)))), [filteredPlayers]);
+
+    const azText = az ? "A-Z" : "Z-A"
+    const alphaSortedPlayer = useMemo(() => {
+        return [...filteredPlayers].sort((a, b) => {
+            return az
+                ? a.title.localeCompare(b.title)
+                : b.title.localeCompare(a.title);
+        });
+    }, [filteredPlayers, az, rouleOrder]);
+
     const sortedPlayers = useMemo(() => {
-        const orderRoule = ["Portiere", "Difensore", "Centrocampista", "Attaccante"];
+        const orderRoule = rouleOrder
+            ? ["Portiere", "Difensore", "Centrocampista", "Attaccante"]
+            : ["Attaccante", "Centrocampista", "Difensore", "Portiere"];
         return [...alphaSortedPlayer].sort((a, b) => {
             return orderRoule.indexOf(a.category) - orderRoule.indexOf(b.category);
         });
-    }, [filteredPlayers]);
+    }, [alphaSortedPlayer]);
 
     if (!players || players.length === 0) {
         return <p>Caricamento dati...</p>;
@@ -66,12 +83,14 @@ export default function PlayerList() {
         <div className="listContainer">
             <h2>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h2>
             <section className="filter">
-                <input type="text" onChange={(e) => debounceInput(e.target.value)} placeholder="Cerca il tuo giocatore..." />
+                <input type="text" onFocus={(e) => e.target.select()} onChange={(e) => debounceInput(e.target.value)} placeholder="Cerca il tuo giocatore..." />
                 <button onClick={() => setFilter("P")}><p className="orange circle">P</p></button>
                 <button onClick={() => setFilter("D")}><p className="green circle">D</p></button>
                 <button onClick={() => setFilter("C")}><p className="blue circle">C</p></button>
                 <button onClick={() => setFilter("A")}><p className="red circle">A</p></button>
-                <button onClick={() => setFilter("")}><p className="white circle">Reset</p></button>
+                <button onClick={() => setAz(curr => !curr)}><p className="white circle">{azText}</p></button>
+                <button onClick={() => setRouleOrder(curr => !curr)}><p className="white circle">Ordina Ruolo</p></button>
+                <button onClick={() => handleReset()}><p className="white circle">Reset</p></button>
             </section>
             <table>
                 <thead>
