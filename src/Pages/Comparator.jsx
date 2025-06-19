@@ -33,7 +33,7 @@ export default function Comparator() {
     );
 
 
-    // Input handlers
+    // gestione input
     const handleInput1 = (e) => {
         const value = e.target.value;
         setInput1(value);
@@ -46,14 +46,14 @@ export default function Comparator() {
         debounceSearch(value, setFiltered2);
     };
 
-    // Click handlers
+    //gestione giocatore selezionato
     const handleSelect = async (player, setInput, setFiltered, setSelected) => {
         setInput(player.title);
         setFiltered([]);
         const data = await getPlayer(player.id);
         setSelected(data);
     };
-
+    // gestione preferiti
     const handleButton = (selected, setSelected) => {
         handleFavorite(selected.id);
         setSelected(prev => ({

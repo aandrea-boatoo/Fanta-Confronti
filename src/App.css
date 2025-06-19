@@ -29,7 +29,7 @@ main {
   top: 100px;
 }
 
-/* Header container */
+/* Header component */
 header {
   position: sticky;
   top: 0;
@@ -98,7 +98,7 @@ h2 {
   padding-top: 2rem;
 }
 
-/* Sezione filtro */
+/*  filtri */
 .filter {
   display: flex;
   justify-content: center;
@@ -162,7 +162,7 @@ tr:hover {
   background-color: #bdd8ff;
 }
 
-/* Link nome giocatore */
+/* Link detail giocatore */
 a {
   color: #0077b6;
   text-decoration: none;
@@ -174,7 +174,7 @@ a:hover {
   color: #023e8a;
 }
 
-/* Cerchi colorati ruolo */
+/* Cerchi ruolo */
 .circle {
   width: 28px;
   height: 28px;
@@ -227,7 +227,7 @@ h1 {
   align-items: center;
 }
 
-/* Contenitore immagine */
+/* Contenitore img */
 .imgContainer {
   display: flex;
   justify-content: center;

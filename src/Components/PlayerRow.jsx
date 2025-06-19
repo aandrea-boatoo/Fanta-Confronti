@@ -1,4 +1,3 @@
-// PlayerRow.jsx
 import { memo } from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
