@@ -12,8 +12,8 @@ function App() {
     <GlobalProvider>
       <BrowserRouter>
         <Routes>
+          <Route index Component={HeroPage}></Route>
           <Route path="/" Component={DefaultLayout}>
-            <Route index Component={HeroPage}></Route>
             <Route path="/playerList" Component={PlayerList}></Route>
             <Route path="/compare" Component={Comparator}></Route>
             <Route path="/details/:id" Component={DetailPlayer}> </Route>

@@ -1,22 +1,29 @@
-import { useContext, useState, useMemo } from "react";
+import { useEffect, useContext, useState, useMemo, useCallback, useRef } from "react";
 import PlayerRow from "../Components/PlayerRow";
 import { GlobalContext } from "../Context/GlobalContext";
 export default function PlayerList() {
     const { players, handleFavorite } = useContext(GlobalContext);
     const [filter, setFilter] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+    const debounceTimer = useRef(null)
 
-    const debounce = (callback, delay) => {
-        let timer;
-        return (value) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                callback(value);
-            }, delay);
-        };
+
+
+    const debounceInput = (value) => {
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current)
+        }
+        debounceTimer.current = setTimeout(() => {
+            setSearchQuery(value);
+        }, 500)
     };
-
-    const debounceSearch = useMemo(debounce(setSearchQuery, 500), []);
+    useEffect(() => {
+        return () => {
+            if (debounceTimer.current) {
+                clearTimeout(debounceTimer.current)
+            }
+        }
+    }, []);
 
     const filteredPlayers = useMemo(() => {
         const byRole = filter
@@ -43,10 +50,10 @@ export default function PlayerList() {
 
         return bySearch;
     }, [players, filter, searchQuery]);
-
+    const alphaSortedPlayer = useMemo(() => ([...filteredPlayers].sort((a, b) => (a.title.localeCompare(b.title)))), [filteredPlayers]);
     const sortedPlayers = useMemo(() => {
         const orderRoule = ["Portiere", "Difensore", "Centrocampista", "Attaccante"];
-        return [...filteredPlayers].sort((a, b) => {
+        return [...alphaSortedPlayer].sort((a, b) => {
             return orderRoule.indexOf(a.category) - orderRoule.indexOf(b.category);
         });
     }, [filteredPlayers]);
@@ -59,7 +66,7 @@ export default function PlayerList() {
         <div className="listContainer">
             <h2>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h2>
             <section className="filter">
-                <input type="text" onChange={(e) => debounceSearch(e.target.value)} placeholder="Cerca il tuo giocatore..." />
+                <input type="text" onChange={(e) => debounceInput(e.target.value)} placeholder="Cerca il tuo giocatore..." />
                 <button onClick={() => setFilter("P")}><p className="orange circle">P</p></button>
                 <button onClick={() => setFilter("D")}><p className="green circle">D</p></button>
                 <button onClick={() => setFilter("C")}><p className="blue circle">C</p></button>
