@@ -69,7 +69,7 @@ export default function Comparator() {
     const isPortier = () => {
         const isP1 = selected1?.category === "Portiere";
         const isP2 = selected2?.category === "Portiere";
-        return (isP1 && isP2) || (!isP1 && !isP2);
+        return (isP1 && !isP2) || (!isP1 && isP2);
     }
 
     return (
@@ -118,6 +118,7 @@ export default function Comparator() {
                 <p className="alert">Non puoi scegliere lo stesso giocatore due volte per il confronto</p>
                 :
                 isPortier() ?
+                    <p className="alert">Non puoi confrontare un portiere con un giocatore di movimento</p> :
                     <div className="comparison-table">
                         <div className="player-card">
                             <div className="playerPresentation">
@@ -196,8 +197,7 @@ export default function Comparator() {
                             </div>
 
                         </div>
-                    </div> :
-                    <p className="alert">Non puoi confrontare un portiere con un giocatore di movimento</p>
+                    </div>
             )
             }
         </div >

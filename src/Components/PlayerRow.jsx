@@ -28,7 +28,7 @@ const PlayerRow = ({ player }) => {
             break;
         default:
             roleClass = "";
-            roleLetter = "?";
+            roleLetter = "";
     }
 
     return (
