@@ -78,10 +78,6 @@ export default function usePlayer() {
         }
     };
 
-    // Utility per classi CSS e testi
-    const isFavoriteClass = singlePlayer?.favorite ? "favorite" : "";
-    const handleAddText = singlePlayer?.favorite ? "Rimuovi" : "Aggiungi";
-
     return {
         players,
         singlePlayer,
@@ -89,7 +85,5 @@ export default function usePlayer() {
         getPlayer,
         updatePlayer,
         handleFavorite,
-        isFavoriteClass,
-        handleAddText,
     };
 }
