@@ -5,10 +5,9 @@ import { GlobalContext } from "../Context/GlobalContext";
 
 
 const PlayerRow = ({ player }) => {
-    const { handleFavorite } = useContext(GlobalContext);
+    const { handleFavorite, favList } = useContext(GlobalContext);
     let roleClass = "";
     let roleLetter = "";
-
     switch (player.category) {
         case "Attaccante":
             roleClass = "red circle";
@@ -37,7 +36,7 @@ const PlayerRow = ({ player }) => {
             <td><Link to={`/details/${player.id}`}>{player.title}</Link></td>
             <td>
                 <button
-                    className={`${player.favorite ? "favorite" : ""} favoriteButton`}
+                    className={`${favList.includes(player.id) ? "favorite" : ""} favoriteButton`}
                     onClick={() => handleFavorite(player.id)}
                 >
                     &#x2665;

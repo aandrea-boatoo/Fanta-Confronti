@@ -4,7 +4,7 @@ import { GlobalContext } from "../Context/GlobalContext";
 
 export default function DetailPlayer() {
     const { id } = useParams();
-    const { getPlayer, handleFavorite, singlePlayer, } = useContext(GlobalContext);
+    const { getPlayer, handleFavorite, singlePlayer, favList } = useContext(GlobalContext);
     useEffect(() => {
         getPlayer(id);
     }, [id]);
@@ -40,8 +40,8 @@ export default function DetailPlayer() {
                 {isPortier}
                 <p><img src="/imgIcon/ammonizioneIcon.png" alt="ammonizioneIcon" /><strong>Ammonizioni:</strong>{singlePlayer.ammonizioni}</p>
                 <p><img src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" /><strong>Espulsioni:</strong>{singlePlayer.espulsioni}</p>
-                <p><button className={singlePlayer.favorite ? "favorite" : ""} onClick={() => handleFavorite(id)}>
-                    <strong>{singlePlayer.favorite ? "Rimuovi" : "Aggiungi"} ai preferiti</strong>
+                <p><button className={favList.includes(singlePlayer.id) ? "favorite" : ""} onClick={() => handleFavorite(singlePlayer.id)}>
+                    <strong>{favList.includes(singlePlayer.id) ? "Rimuovi" : "Aggiungi"} ai preferiti</strong>
                 </button></p>
             </section>
         </div>

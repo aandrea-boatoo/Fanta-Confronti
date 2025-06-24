@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import useStorage from "./useStorage";
 const { VITE_API_URL } = import.meta.env;
-
 export default function usePlayer() {
     const [players, setPlayers] = useState([]);
     const [singlePlayer, setSinglePlayer] = useState(null);
@@ -30,55 +30,18 @@ export default function usePlayer() {
         }
     }, [])
         ;
-    // Aggiorna solo il campo `favorite`
-    const updatePlayer = useCallback(async (updatedPlayer) => {
-        try {
-            const response = await fetch(`${VITE_API_URL}/calciatores/${updatedPlayer.id}`, {
-                method: 'PUT',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ favorite: updatedPlayer.favorite }),
-            });
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error("Errore nell'aggiornamento:", error);
-        }
-    });
-
     // Toggle del preferito
+    const [favList, setFavList] = useStorage("favorite", []);
     const handleFavorite = async (id) => {
-        const playerToUpdate = players.find(p => p.id === parseInt(id));
-        if (!playerToUpdate) return;
+        favList.includes(id) ?
+            setFavList(favList.filter(item => item !== id)) :
+            setFavList([...favList, id]);
 
-        const updatedFavorite = !playerToUpdate.favorite;
-
-        // Aggiorna solo la proprietà favorite
-        const updateResponse = await updatePlayer({ id: playerToUpdate.id, favorite: updatedFavorite });
-
-        if (!updateResponse) {
-            console.error("Aggiornamento fallito");
-            return;
-        }
-        // carica i dati del giocatore aggiornato
-        const refreshedPlayer = await getPlayer(playerToUpdate.id);
-
-        if (!refreshedPlayer) {
-            console.error("Recupero giocatore aggiornato fallito");
-            return;
-        }
-
-        setPlayers(prevPlayers =>
-            prevPlayers.map(p => p.id === refreshedPlayer.id ? refreshedPlayer : p)
-        );
-
-        if (singlePlayer?.id === refreshedPlayer.id) {
-            setSinglePlayer(refreshedPlayer);
-        }
-    };
-
+    }
     return {
         players,
         singlePlayer,
+        favList,
         getPlayer,
         handleFavorite,
     };

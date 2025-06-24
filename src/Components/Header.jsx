@@ -5,6 +5,7 @@ export default function Header() {
         <p><NavLink to="/">Fanta Confronti</NavLink></p>
         <div id="navbar">
             <NavLink to="/playerList">Lista dei Giocatori</NavLink>
+            <NavLink to="/favList">I tuoi preferiti</NavLink>
             <NavLink to="/compare" >Confronta</NavLink>
         </div>
     </header>

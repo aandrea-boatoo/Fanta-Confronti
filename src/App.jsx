@@ -6,6 +6,7 @@ import Comparator from "./Pages/Comparator"
 import GlobalProvider from './Context/GlobalContext'
 import DetailPlayer from './Pages/DetailPlayer'
 import HeroPage from './Pages/HeroPage'
+import FavoriteList from './Pages/FavoriteList'
 function App() {
 
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route index Component={HeroPage}></Route>
           <Route path="/" Component={DefaultLayout}>
             <Route path="/playerList" Component={PlayerList}></Route>
+            <Route path="/favList" Component={FavoriteList}></Route>
             <Route path="/compare" Component={Comparator}></Route>
             <Route path="/details/:id" Component={DetailPlayer}> </Route>
           </Route>

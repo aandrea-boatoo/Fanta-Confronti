@@ -9,7 +9,7 @@ export default function Comparator() {
     const [filtered2, setFiltered2] = useState([]);
     const [selected1, setSelected1] = useState(null);
     const [selected2, setSelected2] = useState(null);
-    const { players, getPlayer, handleFavorite } = useContext(GlobalContext);
+    const { players, getPlayer, handleFavorite, favList } = useContext(GlobalContext);
 
     //  debounce generale
     const debounce = (callback, delay) => {
@@ -23,7 +23,7 @@ export default function Comparator() {
     };
 
     const debounceSearch = useCallback(
-        debounce((value, setFiltered) => {
+        debounce((setFiltered, value) => {
             const res = players.filter(player =>
                 player.title.toLowerCase().includes(value.toLowerCase())
             );
@@ -37,13 +37,13 @@ export default function Comparator() {
     const handleInput1 = (e) => {
         const value = e.target.value;
         setInput1(value);
-        debounceSearch(value, setFiltered1);
+        debounceSearch(setFiltered1, value);
     };
 
     const handleInput2 = (e) => {
         const value = e.target.value;
         setInput2(value);
-        debounceSearch(value, setFiltered2);
+        debounceSearch(setFiltered2, value);
     };
 
     //gestione giocatore selezionato
@@ -125,7 +125,7 @@ export default function Comparator() {
                                 <img src={selected1.img} alt={selected1.title} />
                                 <h3><Link to={`/details/${selected1.id}`}>{selected1.title}</Link></h3>
                                 <button
-                                    className={selected1.favorite ? "favorite favoriteButton" : "favoriteButton"}
+                                    className={favList.includes(selected1.id) ? "favorite favoriteButton" : "favoriteButton"}
                                     onClick={() => handleButton(selected1, setSelected1)}
                                 >
                                     &#x2665;
@@ -189,7 +189,7 @@ export default function Comparator() {
                                 <img src={selected2.img} alt={selected2.title} />
                                 <h3><Link to={`/details/${selected2.id}`}>{selected2.title}</Link></h3>
                                 <button
-                                    className={selected2.favorite ? "favorite favoriteButton" : "favoriteButton"}
+                                    className={favList.includes(selected2.id) ? "favorite favoriteButton" : "favoriteButton"}
                                     onClick={() => handleButton(selected2, setSelected2)}
                                 >
                                     &#x2665;

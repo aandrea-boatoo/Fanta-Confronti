@@ -1,36 +1,36 @@
-import { useEffect, useContext, useState, useMemo, useRef } from "react";
+import { useContext, useState, useMemo, useCallback } from "react";
 import PlayerRow from "../Components/PlayerRow";
 import { GlobalContext } from "../Context/GlobalContext";
 export default function PlayerList() {
-    const { players } = useContext(GlobalContext);
+    const { players, favList } = useContext(GlobalContext);
     const [filter, setFilter] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [az, setAz] = useState(true);
     const [rouleOrder, setRouleOrder] = useState(true);
-    const debounceTimer = useRef(null)
+    const [favFilter, setFavFilter] = useState(false)
 
 
-
-    const debounceInput = (value) => {
-        if (debounceTimer.current) {
-            clearTimeout(debounceTimer.current)
+    const debounce = (callback, delay) => {
+        let timer;
+        return (value) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                callback(value)
+            }, delay)
         }
-        debounceTimer.current = setTimeout(() => {
-            setSearchQuery(value);
-        }, 500)
     };
-    useEffect(() => {
-        return () => {
-            if (debounceTimer.current) {
-                clearTimeout(debounceTimer.current)
-            }
-        }
-    }, []);
+
+    const debounceInput = useCallback(
+        debounce((setSearchQuery, value) => {
+            setSearchQuery(value);
+        }, 500))
+
     const handleReset = () => {
         setFilter("");
         setAz(true);
         setRouleOrder(true);
     }
+
     const filteredPlayers = useMemo(() => {
         const byRole = filter
             ? players.filter((player) => {
@@ -79,11 +79,12 @@ export default function PlayerList() {
         return <p>Caricamento dati...</p>;
     }
 
+    const playerList = favFilter ? sortedPlayers.filter(p => favList.includes(p.id)) : sortedPlayers;
     return (
         <div className="listContainer">
             <h2>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h2>
             <section className="filter">
-                <input type="text" onFocus={(e) => e.target.select()} onChange={(e) => debounceInput(e.target.value)} placeholder="Cerca il tuo giocatore..." />
+                <input type="text" onFocus={(e) => e.target.select()} onChange={() => debounceInput()} placeholder="Cerca il tuo giocatore..." />
                 <button onClick={() => setFilter("P")}><p className="orange circle">P</p></button>
                 <button onClick={() => setFilter("D")}><p className="green circle">D</p></button>
                 <button onClick={() => setFilter("C")}><p className="blue circle">C</p></button>
