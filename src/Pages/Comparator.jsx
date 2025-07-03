@@ -122,8 +122,10 @@ export default function Comparator() {
                     <div className="comparison-table">
                         <div className="player-card">
                             <div className="playerPresentation">
-                                <img src={selected1.img} alt={selected1.title} />
-                                <h3><Link to={`/details/${selected1.id}`}>{selected1.title}</Link></h3>
+                                <Link to={`/details/${selected1.id}`}>
+                                    <img src={selected1.img} alt={selected1.title} />
+                                    <h3>{selected1.title}</h3>
+                                </Link>
                                 <button
                                     className={favList.includes(selected1.id) ? "favorite favoriteButton" : "favoriteButton"}
                                     onClick={() => handleButton(selected1, setSelected1)}
@@ -186,8 +188,10 @@ export default function Comparator() {
                                 <p className="rightStats">{selected2.espulsioni}<img className="right" src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" /></p>
                             </div>
                             <div className="playerPresentation">
-                                <img src={selected2.img} alt={selected2.title} />
-                                <h3><Link to={`/details/${selected2.id}`}>{selected2.title}</Link></h3>
+                                <Link to={`/details/${selected2.id}`}>
+                                    <img src={selected2.img} alt={selected2.title} />
+                                    <h3>{selected2.title}</h3>
+                                </Link>
                                 <button
                                     className={favList.includes(selected2.id) ? "favorite favoriteButton" : "favoriteButton"}
                                     onClick={() => handleButton(selected2, setSelected2)}

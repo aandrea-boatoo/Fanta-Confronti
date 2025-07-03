@@ -17,11 +17,11 @@ export default function DetailPlayer() {
     }
     const isPortier = singlePlayer.category === "Portiere" ?
         <>
-            <p><img src="/imgIcon/golSubitoIcon.png" alt="golSubitiIcon" /><strong>Gol Subiti:</strong>{singlePlayer.golSubiti}</p>
-            <p><img src="/imgIcon/cleanSheetIcon.png" alt="cleansheetIcon" /><strong>Cleansheet:</strong> {singlePlayer.cleanSheet}</p>
+            <p><img src="/imgIcon/golSubitoIcon.png" alt="golSubitiIcon" /><strong>Gol Subiti: </strong>{singlePlayer.golSubiti}</p>
+            <p><img src="/imgIcon/cleanSheetIcon.png" alt="cleansheetIcon" /><strong>Cleansheet: </strong> {singlePlayer.cleanSheet}</p>
         </> : <>
-            <p><img src="/imgIcon/golIcon.png" alt="gol icon" /><strong>Gol:</strong> {singlePlayer.gol}</p>
-            <p><img src="/imgIcon/assistIcon.png" alt="assist icon" /><strong>Assist:</strong> {singlePlayer.assist}</p>
+            <p><img src="/imgIcon/golIcon.png" alt="gol icon" /><strong>Gol: </strong> {singlePlayer.gol}</p>
+            <p><img src="/imgIcon/assistIcon.png" alt="assist icon" /><strong>Assist: </strong> {singlePlayer.assist}</p>
         </>;
 
     return (<>
@@ -32,14 +32,14 @@ export default function DetailPlayer() {
             </div>
             <section className="stats">
 
-                <p><strong>Età:</strong> {singlePlayer.age}</p>
-                <p><strong>Ruolo:</strong>{singlePlayer.category}</p>
-                <p><strong>Partite Giocate:</strong>{singlePlayer.partiteGiocate}</p>
-                <p><strong>Media FantaVoto:</strong>{singlePlayer.mediaFantaVoto}</p>
-                <p><strong>Sufficienze:</strong>{singlePlayer.sufficienze}</p>
+                <p><strong>Età: </strong> {singlePlayer.age}</p>
+                <p><strong>Ruolo: </strong>{singlePlayer.category}</p>
+                <p><strong>Partite Giocate: </strong>{singlePlayer.partiteGiocate}</p>
+                <p><strong>Media FantaVoto: </strong>{singlePlayer.mediaFantaVoto}</p>
+                <p><strong>Sufficienze: </strong>{singlePlayer.sufficienze}</p>
                 {isPortier}
-                <p><img src="/imgIcon/ammonizioneIcon.png" alt="ammonizioneIcon" /><strong>Ammonizioni:</strong>{singlePlayer.ammonizioni}</p>
-                <p><img src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" /><strong>Espulsioni:</strong>{singlePlayer.espulsioni}</p>
+                <p><img src="/imgIcon/ammonizioneIcon.png" alt="ammonizioneIcon" /><strong>Ammonizioni: </strong>{singlePlayer.ammonizioni}</p>
+                <p><img src="/imgIcon/espulsioneIcon.png" alt="EspulsioniIcon" /><strong>Espulsioni: </strong>{singlePlayer.espulsioni}</p>
                 <p><button className={favList.includes(singlePlayer.id) ? "favorite" : ""} onClick={() => handleFavorite(singlePlayer.id)}>
                     <strong>{favList.includes(singlePlayer.id) ? "Rimuovi" : "Aggiungi"} ai preferiti</strong>
                 </button></p>

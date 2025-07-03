@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState, } from "react"
+import { Link } from "react-router-dom"
 import { memo } from "react"
 import { GlobalContext } from "../Context/GlobalContext"
 
@@ -44,7 +45,9 @@ const Card = ({ player }) => {
     return (
         <>
             <div className="playerCard">
-                <img src={favPlayer.img} alt={favPlayer.title} />
+                <Link to={`/details/${favPlayer.id}`}>
+                    <img src={favPlayer.img} alt={favPlayer.title} />
+                </Link>
                 <div className="favPlayerStats">
                     <p className="mainStats"><img className="icon" src="/imgIcon/tickIcon.png" alt="tickIcon" />{favPlayer.partiteGiocate}</p>
                     {rouleStats(favPlayer)}
@@ -55,7 +58,7 @@ const Card = ({ player }) => {
                     className={favList.includes(favPlayer.id) ? "favorite favoriteButton" : "favoriteButton"}
                     onClick={() => handleFavorite(player.id)}
                 >
-                    &#x2665;
+                    Rimuovi
                 </button>
             </div>
         </>
