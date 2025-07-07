@@ -3,24 +3,6 @@ import { GlobalContext } from "../Context/GlobalContext";
 import Card from "../Components/Card";
 export default function PlayerList() {
     const { players, favList } = useContext(GlobalContext);
-    const [searchQuery, setSearchQuery] = useState("");
-
-    const debounce = (callback, delay) => {
-        let timer;
-        return (value) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                callback(value)
-            }, delay)
-        }
-    };
-    const debounceInput = useCallback(
-        debounce((setSearchQuery, value) => {
-            setSearchQuery(value);
-        }, 500))
-
-    const bySearch = players.filter(player =>
-        player.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
     const favoritePlayerList = players.filter(p => favList.includes(p.id));
 
@@ -39,7 +21,7 @@ export default function PlayerList() {
         ))
 
     const difensoriCards = difensoriList.length === 0 ?
-        <p className="alertNoCards">nessun portiere tra i preferiti</p> :
+        <p className="alertNoCards">nessun difensore tra i preferiti</p> :
         difensoriList.map((player, index) => (
             <Card
                 key={index}
@@ -48,7 +30,7 @@ export default function PlayerList() {
         ))
 
     const centrocampistiCards = centrocampistiList.length === 0 ?
-        <p className="alertNoCards">nessun portiere tra i preferiti</p> :
+        <p className="alertNoCards">nessun centrocampista tra i preferiti</p> :
         centrocampistiList.map((player, index) => (
             <Card
                 key={index}
@@ -57,7 +39,7 @@ export default function PlayerList() {
         ))
 
     const attaccantiCards = attaccantiList.length === 0 ?
-        <p className="alertNoCards">nessun portiere tra i preferiti</p> :
+        <p className="alertNoCards">nessun attaccante tra i preferiti</p> :
         attaccantiList.map((player, index) => (
             <Card
                 key={index}
