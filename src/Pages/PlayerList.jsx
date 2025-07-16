@@ -40,16 +40,16 @@ export default function PlayerList() {
 
     const debounce = (callback, delay) => {
         let timer;
-        return (value) => {
+        return (...args) => {
             clearTimeout(timer);
             timer = setTimeout(() => {
-                callback(value)
+                callback(...args)
             }, delay)
         }
     };
 
     const debounceInput = useCallback(
-        debounce((setSearchQuery, value) => {
+        debounce((value) => {
             setSearchQuery(value);
         }, 500), [])
 
@@ -112,7 +112,7 @@ export default function PlayerList() {
         <div className="listContainer">
             <h2>Trova i tuoi beniamini e confrontali con quelli dei tuoi avversari, avrai azzeccato tutto all'asta?</h2>
             <section className="filter">
-                <input type="text" onFocus={(e) => e.target.select()} onChange={() => debounceInput()} placeholder="Cerca il tuo giocatore..." />
+                <input type="text" onFocus={(e) => e.target.select()} onChange={(e) => debounceInput(e.target.value)} placeholder="Cerca il tuo giocatore..." />
                 <button onClick={() => setFilter("P")}><p className="orange circle">P</p></button>
                 <button onClick={() => setFilter("D")}><p className="green circle">D</p></button>
                 <button onClick={() => setFilter("C")}><p className="blue circle">C</p></button>
