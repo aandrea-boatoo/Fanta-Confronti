@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo, useCallback } from "react";
+import { useContext, useState, useMemo, useCallback, useEffect } from "react";
 import PlayerRow from "../Components/PlayerRow";
 import { GlobalContext } from "../Context/GlobalContext";
 export default function PlayerList() {
@@ -8,30 +8,10 @@ export default function PlayerList() {
     const [az, setAz] = useState(true);
     const [rouleOrder, setRouleOrder] = useState(true);
     const [favFilter, setFavFilter] = useState(false)
+    const [filteredPlayers, setFilteredPlayers] = useState([]);
 
+    useEffect(() => {
 
-    const debounce = (callback, delay) => {
-        let timer;
-        return (value) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                callback(value)
-            }, delay)
-        }
-    };
-
-    const debounceInput = useCallback(
-        debounce((setSearchQuery, value) => {
-            setSearchQuery(value);
-        }, 500))
-
-    const handleReset = () => {
-        setFilter("");
-        setAz(true);
-        setRouleOrder(true);
-    }
-
-    const filteredPlayers = useMemo(() => {
         const byRole = filter
             ? players.filter((player) => {
                 switch (filter) {
@@ -53,9 +33,57 @@ export default function PlayerList() {
             ? byRole.filter(player =>
                 player.title.toLowerCase().includes(searchQuery.toLowerCase()))
             : byRole;
+        setFilteredPlayers(bySearch);
+    }
 
-        return bySearch;
-    }, [players, filter, searchQuery]);
+        , [players, filter, searchQuery])
+
+    const debounce = (callback, delay) => {
+        let timer;
+        return (value) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                callback(value)
+            }, delay)
+        }
+    };
+
+    const debounceInput = useCallback(
+        debounce((setSearchQuery, value) => {
+            setSearchQuery(value);
+        }, 500), [])
+
+    const handleReset = () => {
+        setFilter("");
+        setAz(true);
+        setRouleOrder(true);
+    }
+
+    // const filteredPlayers = useMemo(() => {
+    //     const byRole = filter
+    //         ? players.filter((player) => {
+    //             switch (filter) {
+    //                 case "P":
+    //                     return player.category === "Portiere";
+    //                 case "D":
+    //                     return player.category === "Difensore";
+    //                 case "C":
+    //                     return player.category === "Centrocampista";
+    //                 case "A":
+    //                     return player.category === "Attaccante";
+    //                 default:
+    //                     return "";
+    //             }
+    //         })
+    //         : players;
+
+    //     const bySearch = searchQuery
+    //         ? byRole.filter(player =>
+    //             player.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    //         : byRole;
+
+    //     return bySearch;
+    // }, [players, filter, searchQuery]);
 
     const azText = az ? "A-Z" : "Z-A"
     const alphaSortedPlayer = useMemo(() => {
